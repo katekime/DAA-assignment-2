@@ -66,6 +66,15 @@ public class MaxHeap {
         }
         return heap[0];
     }
+    public void buildHeap(int[] arr) {
+        size = arr.length;
+        heap = new int[size];
+        System.arraycopy(arr, 0, heap, 0, size);
+
+        for (int i = (size / 2) - 1; i >= 0; i--) {
+            heapifyDown(i);
+        }
+    }
 
     private void swap(int i, int j) {
         int tmp = heap[i];
