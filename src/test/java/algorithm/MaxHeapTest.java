@@ -26,6 +26,14 @@ public class MaxHeapTest {
         assertEquals(20, heap.peek());
         assertEquals(20, heap.peek());
     }
+    @Test
+    void testBuildHeap() {
+        int[] arr = {3, 5, 9, 6, 8, 20, 10, 12, 18, 9};
+        MaxHeap heap = new MaxHeap(arr.length);
+        heap.buildHeap(arr);
+
+        assertEquals(20, heap.peek());
+    }
 
     @Test
     void testHeapEmptyExtract() {
