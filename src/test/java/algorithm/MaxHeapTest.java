@@ -18,6 +18,14 @@ public class MaxHeapTest {
         assertEquals(15, heap.extractMax());
         assertEquals(5, heap.extractMax());
     }
+    @Test
+    void testPeek() {
+        MaxHeap heap = new MaxHeap(5);
+        heap.insert(10);
+        heap.insert(20);
+        assertEquals(20, heap.peek());
+        assertEquals(20, heap.peek());
+    }
 
     @Test
     void testHeapEmptyExtract() {

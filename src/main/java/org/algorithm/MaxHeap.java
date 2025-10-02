@@ -60,6 +60,12 @@ public class MaxHeap {
             }
         }
     }
+    public int peek() {
+        if (size == 0) {
+            throw new IllegalStateException("heap is empty");
+        }
+        return heap[0];
+    }
 
     private void swap(int i, int j) {
         int tmp = heap[i];
