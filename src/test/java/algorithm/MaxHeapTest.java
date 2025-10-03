@@ -3,8 +3,7 @@ package algorithm;
 import org.algorithm.MaxHeap;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MaxHeapTest {
     @Test
@@ -34,10 +33,25 @@ public class MaxHeapTest {
 
         assertEquals(20, heap.peek());
     }
+    @Test
+    void testHeapSort() {
+        int[] arr = {4, 10, 3, 5, 1};
+        MaxHeap heap = new MaxHeap(arr.length);
+        int[] sorted = heap.heapSort(arr);
+
+        assertArrayEquals(new int[]{1, 3, 4, 5, 10}, sorted);
+    }
 
     @Test
     void testHeapEmptyExtract() {
         MaxHeap heap = new MaxHeap(5);
         assertThrows(IllegalStateException.class, heap::extractMax);
+    }
+    @Test
+    void testSizeAndIsEmpty() {
+        MaxHeap heap = new MaxHeap(5);
+        assertTrue(heap.isEmpty());
+        heap.insert(7);
+        assertEquals(1, heap.size());
     }
 }
