@@ -10,14 +10,18 @@ public class MaxHeap {
         this.size = 0;
         this.heap = new int[capacity];
     }
+    private int parent(int i) { return (i - 1) / 2; }
+    private int leftChild(int i) { return 2 * i + 1; }
+    private int rightChild(int i) { return 2 * i + 2; }
 
     public void insert(int value) {
         if (size == capacity) {
             throw new IllegalStateException("heap is full");
         }
         heap[size] = value;
-        heapifyUp(size);
         size++;
+        heapifyUp(size - 1);
+
     }
 
     public int extractMax() {
@@ -32,18 +36,16 @@ public class MaxHeap {
     }
 
     private void heapifyUp(int index) {
-        int parent = (index - 1) / 2;
-        while (index > 0 && heap[index] > heap[parent]) {
-            swap(index, parent);
-            index = parent;
-            parent = (index - 1) / 2;
+        while (index > 0 && heap[index] > heap[parent(index)]) {
+            swap(index, parent(index));
+            index = parent(index);
         }
     }
 
     private void heapifyDown(int index) {
         while (index < size) {
-            int left = index * 2 + 1;
-            int right = index * 2 + 2;
+            int left = leftChild(index);
+            int right = rightChild(index);
             int largest = index;
 
             if (left < size && heap[left] > heap[largest]) {
@@ -75,14 +77,26 @@ public class MaxHeap {
             heapifyDown(i);
         }
     }
+    public int[] heapSort(int[] arr) {
+        buildHeap(arr);
+        int[] sorted = new int[arr.length];
+
+        for (int i = arr.length - 1; i >= 0; i--) {
+            sorted[i] = extractMax();
+        }
+        return sorted;
+    }
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public int size() {
+        return size;
+    }
 
     private void swap(int i, int j) {
         int tmp = heap[i];
         heap[i] = heap[j];
         heap[j] = tmp;
-    }
-
-    public int getSize() {
-        return size;
     }
 }
