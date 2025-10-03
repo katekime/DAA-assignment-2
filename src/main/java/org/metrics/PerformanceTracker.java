@@ -33,6 +33,6 @@ public class PerformanceTracker {
 
     @Override
     public String toString() {
-        return "comparisons: " + comparisons + ", swaps: " + swaps + ", array aпшеccesses: " + arrayAccesses;
+        return "comparisons: " + comparisons + ", swaps: " + swaps + ", array accesses: " + arrayAccesses;
     }
 }
