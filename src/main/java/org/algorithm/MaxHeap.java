@@ -1,14 +1,18 @@
 package org.algorithm;
 
+import org.metrics.PerformanceTracker;
+
 public class MaxHeap {
     private int[] heap;
     private int size;
     private int capacity;
+    private PerformanceTracker tracker;
 
-    public MaxHeap(int capacity) {
+    public MaxHeap(int capacity, PerformanceTracker tracker) {
         this.capacity = capacity;
         this.size = 0;
         this.heap = new int[capacity];
+        this.tracker = tracker;
     }
     private int parent(int i) { return (i - 1) / 2; }
     private int leftChild(int i) { return 2 * i + 1; }
@@ -19,6 +23,7 @@ public class MaxHeap {
             throw new IllegalStateException("heap is full");
         }
         heap[size] = value;
+        tracker.incrementArrayAccesses();
         size++;
         heapifyUp(size - 1);
 
@@ -29,7 +34,9 @@ public class MaxHeap {
             throw new IllegalStateException("heap is empty");
         }
         int max = heap[0];
+        tracker.incrementArrayAccesses();
         heap[0] = heap[size - 1];
+        tracker.incrementArrayAccesses();
         size--;
         heapifyDown(0);
         return max;
@@ -37,6 +44,7 @@ public class MaxHeap {
 
     private void heapifyUp(int index) {
         while (index > 0 && heap[index] > heap[parent(index)]) {
+            tracker.incrementComparisons();
             swap(index, parent(index));
             index = parent(index);
         }
@@ -66,12 +74,14 @@ public class MaxHeap {
         if (size == 0) {
             throw new IllegalStateException("heap is empty");
         }
+        tracker.incrementArrayAccesses();
         return heap[0];
     }
     public void buildHeap(int[] arr) {
         size = arr.length;
         heap = new int[size];
         System.arraycopy(arr, 0, heap, 0, size);
+        tracker.incrementArrayAccesses();
 
         for (int i = (size / 2) - 1; i >= 0; i--) {
             heapifyDown(i);
@@ -98,5 +108,7 @@ public class MaxHeap {
         int tmp = heap[i];
         heap[i] = heap[j];
         heap[j] = tmp;
+        tracker.incrementSwaps();
+        tracker.incrementArrayAccesses();
     }
 }
