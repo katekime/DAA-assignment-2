@@ -51,23 +51,23 @@ public class MaxHeap {
     }
 
     private void heapifyDown(int index) {
-        while (index < size) {
+        while (true) {
             int left = leftChild(index);
-            int right = rightChild(index);
-            int largest = index;
+            if (left >= size) break;
 
-            if (left < size && heap[left] > heap[largest]) {
-                largest = left;
-            }
-            if (right < size && heap[right] > heap[largest]) {
+            int right = rightChild(index);
+            int largest = left;
+
+            tracker.incrementComparisons();
+            if (right < size && heap[right] > heap[left]) {
                 largest = right;
             }
-            if (largest != index) {
-                swap(index, largest);
+
+            tracker.incrementComparisons();
+            if (heap[largest] > heap[index]) {
+                swap(largest, index);
                 index = largest;
-            } else {
-                break;
-            }
+            } else break;
         }
     }
     public int peek() {
