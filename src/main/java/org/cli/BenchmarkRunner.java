@@ -10,7 +10,11 @@ public class BenchmarkRunner {
         int[] sizes = {100, 1_000, 10_000};
         int runs = 5;
 
-        for (int size : sizes) {
+        String[][] csvData = new String[sizes.length][5];
+        String[] headers = {"Size", "Avg Time (ns)", "Avg Comparisons", "Avg Swaps", "Avg Array Accesses"};
+
+        for (int i = 0; i < sizes.length; i++) {
+            int size = sizes[i];
             System.out.println("Benchmark size");
             long totalComparisons = 0;
             long totalSwaps = 0;
@@ -32,10 +36,26 @@ public class BenchmarkRunner {
                 totalAccesses += tracker.getArrayAccesses();
             }
 
+            long avgTime = totalTime / runs;
+            long avgComparisons = totalComparisons / runs;
+            long avgSwaps = totalSwaps / runs;
+            long avgAccesses = totalAccesses / runs;
+
             System.out.println("Avg time (ns): " + totalTime / runs);
             System.out.println("Avg comparisons: " + totalComparisons / runs);
             System.out.println("Avg swaps: " + totalSwaps / runs);
             System.out.println("Avg array accesses: " + totalAccesses / runs);
+
+            csvData[i] = new String[]{
+                    String.valueOf(size),
+                    String.valueOf(avgTime),
+                    String.valueOf(avgComparisons),
+                    String.valueOf(avgSwaps),
+                    String.valueOf(avgAccesses)
+            };
+
+            CSV.writeMetrics("benchmark_metrics.csv", headers, csvData);
+            System.out.println("CSV file 'benchmark_metrics.csv' created");
         }
     }
 

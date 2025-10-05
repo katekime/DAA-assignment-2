@@ -18,6 +18,11 @@ public class MainApp {
         }
 
         System.out.println("peek max: " + heap.peek());
+
+        System.out.println("increasing value at index 3 to 120");
+        heap.increaseKey(3, 120);
+        System.out.println("peek max after increaseKey: " + heap.peek());
+
         System.out.println("extracted max: " + heap.extractMax());
         System.out.println("peek after extract: " + heap.peek());
 

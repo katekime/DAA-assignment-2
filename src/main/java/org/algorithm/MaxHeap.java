@@ -70,6 +70,17 @@ public class MaxHeap {
             } else break;
         }
     }
+    public void increaseKey(int index, int newValue) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index bound of exception");
+        }
+        if (newValue <= heap[index]) {
+            return;
+        }
+        heap[index] = newValue;
+        tracker.incrementArrayAccesses();
+        heapifyUp(index);
+    }
     public int peek() {
         if (size == 0) {
             throw new IllegalStateException("heap is empty");
@@ -88,13 +99,18 @@ public class MaxHeap {
         }
     }
     public int[] heapSort(int[] arr) {
-        buildHeap(arr);
-        int[] sorted = new int[arr.length];
-
-        for (int i = arr.length - 1; i >= 0; i--) {
-            sorted[i] = extractMax();
+        if (arr == null || arr.length <= 1) {
+            return arr;
         }
-        return sorted;
+        buildHeap(arr);
+        for (int i = arr.length - 1; i > 0; i--) {
+            swap(0, i);
+            this.size--;
+
+            heapifyDown(0);
+        }
+        this.size = arr.length;
+        return arr;
     }
     public boolean isEmpty() {
         return size == 0;
@@ -105,10 +121,13 @@ public class MaxHeap {
     }
 
     private void swap(int i, int j) {
+        if (i == j) return;
         int tmp = heap[i];
         heap[i] = heap[j];
         heap[j] = tmp;
         tracker.incrementSwaps();
+        tracker.incrementArrayAccesses();
+        tracker.incrementArrayAccesses();
         tracker.incrementArrayAccesses();
     }
 }
