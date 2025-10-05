@@ -14,7 +14,6 @@ public class BenchmarkRunner {
         String outputDir = "docs/performance-plots";
         String fileName = "benchmark_metrics.csv";
         String filePath = outputDir + "/" + fileName;
-        new File(outputDir).mkdirs();
         String[] headers = {"Size", "Avg Time (ns)", "Avg Comparisons", "Avg Swaps", "Avg Array Accesses"};
         String[][] csvData = new String[sizes.length][headers.length];
 
@@ -51,8 +50,6 @@ public class BenchmarkRunner {
             System.out.println("Avg comparisons: " + avgComparisons);
             System.out.println("Avg swaps: " + avgSwaps);
             System.out.println("Avg array accesses: " + avgAccesses);
-
-            // Добавляем строку данных
             csvData[i] = new String[]{
                     String.valueOf(size),
                     String.valueOf(avgTime),

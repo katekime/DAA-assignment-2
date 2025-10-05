@@ -50,6 +50,7 @@ public class MaxHeap {
         }
     }
 
+
     private void heapifyDown(int index) {
         while (true) {
             int left = leftChild(index);
