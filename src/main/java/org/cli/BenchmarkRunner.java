@@ -3,6 +3,7 @@ package org.cli;
 import org.algorithm.MaxHeap;
 import org.metrics.PerformanceTracker;
 
+import java.io.File;
 import java.util.Random;
 
 public class BenchmarkRunner {
@@ -10,12 +11,17 @@ public class BenchmarkRunner {
         int[] sizes = {100, 1_000, 10_000, 100_000};
         int runs = 5;
 
-        String[][] csvData = new String[sizes.length][5];
+        String outputDir = "docs/performance-plots";
+        String fileName = "benchmark_metrics.csv";
+        String filePath = outputDir + "/" + fileName;
+        new File(outputDir).mkdirs();
         String[] headers = {"Size", "Avg Time (ns)", "Avg Comparisons", "Avg Swaps", "Avg Array Accesses"};
+        String[][] csvData = new String[sizes.length][headers.length];
 
         for (int i = 0; i < sizes.length; i++) {
             int size = sizes[i];
-            System.out.println("Benchmark size");
+            System.out.println("\nBenchmark size: " + size);
+
             long totalComparisons = 0;
             long totalSwaps = 0;
             long totalAccesses = 0;
@@ -41,11 +47,12 @@ public class BenchmarkRunner {
             long avgSwaps = totalSwaps / runs;
             long avgAccesses = totalAccesses / runs;
 
-            System.out.println("Avg time (ns): " + totalTime / runs);
-            System.out.println("Avg comparisons: " + totalComparisons / runs);
-            System.out.println("Avg swaps: " + totalSwaps / runs);
-            System.out.println("Avg array accesses: " + totalAccesses / runs);
+            System.out.println("Avg time (ns): " + avgTime);
+            System.out.println("Avg comparisons: " + avgComparisons);
+            System.out.println("Avg swaps: " + avgSwaps);
+            System.out.println("Avg array accesses: " + avgAccesses);
 
+            // Добавляем строку данных
             csvData[i] = new String[]{
                     String.valueOf(size),
                     String.valueOf(avgTime),
@@ -53,10 +60,9 @@ public class BenchmarkRunner {
                     String.valueOf(avgSwaps),
                     String.valueOf(avgAccesses)
             };
-
-            CSV.writeMetrics("benchmark_metrics.csv", headers, csvData);
-            System.out.println("CSV file 'benchmark_metrics.csv' created");
         }
+
+        CSV.writeMetrics(filePath, headers, csvData);
     }
 
     private static int[] generateRandomArray(int size) {
