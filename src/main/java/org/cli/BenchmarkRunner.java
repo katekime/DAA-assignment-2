@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class BenchmarkRunner {
     public static void main(String[] args) {
-        int[] sizes = {100, 1_000, 10_000};
+        int[] sizes = {100, 1_000, 10_000, 100_000};
         int runs = 5;
 
         String[][] csvData = new String[sizes.length][5];
